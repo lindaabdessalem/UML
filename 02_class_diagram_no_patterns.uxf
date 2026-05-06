@@ -1,0 +1,171 @@
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><element><id>UMLClass</id><coordinates><x>64</x><y>16</y><w>200</w><h>130</h></coordinates><panel_attributes>User
+--
+- userId: String
+- name: String
+- cardBalance: double
+- cardId: String
+--
++ authenticate(): boolean
++ getBalance(): double</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>352</x><y>24</y><w>210</w><h>150</h></coordinates><panel_attributes>Kiosk
+--
+- kioskId: String
+- location: String
+- isActive: boolean
+--
++ displayMenu(): void
++ processOrder(): void
++ updateMenu(menu: Menu): void
++ logTransaction(o: Order): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>656</x><y>24</y><w>200</w><h>150</h></coordinates><panel_attributes>Order
+--
+- orderId: String
+- timestamp: Date
+- totalCost: double
+- status: OrderStatus
+- userId: String
+--
++ calculateTotal(): double
++ submit(): void
++ getStatus(): OrderStatus</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>656</x><y>224</y><w>200</w><h>120</h></coordinates><panel_attributes>OrderItem
+--
+- quantity: int
+- customisations: List&lt;String&gt;
+- lineTotal: double
+--
++ getLineTotal(): double
++ addCustomisation(s: String): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>216</y><w>210</w><h>150</h></coordinates><panel_attributes>/Product/
+--
+- productId: String
+- name: String
+- price: double
+- isAvailable: boolean
+--
+/+ getDetails(): String/
++ setPrice(p: double): void
++ setAvailable(b: boolean): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>56</x><y>416</y><w>200</w><h>130</h></coordinates><panel_attributes>Drink
+--
+- size: String
+- sugarLevel: String
+- milkLevel: String
+- iceLevel: String
+- toppings: List&lt;String&gt;
+--
++ customise(): void
++ getDetails(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>376</x><y>424</y><w>200</w><h>130</h></coordinates><panel_attributes>Snack
+--
+- type: String
+- ingredients: List&lt;String&gt;
+- dressingChoice: String
+--
++ addIngredient(i: String): void
++ removIngredient(i: String): void
++ getDetails(): String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>64</x><y>216</y><w>190</w><h>120</h></coordinates><panel_attributes>TransactionLog
+--
+- logId: String
+- kioskId: String
+- timestamp: Date
+- orderId: String
+- userId: String
+--
++ save(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>376</x><y>632</y><w>200</w><h>130</h></coordinates><panel_attributes>Menu
+--
+- menuId: String
+- products: List&lt;Product&gt;
+- lastUpdated: Date
+--
++ addProduct(p: Product): void
++ removeProduct(id: String): void
++ getProducts(): List&lt;Product&gt;
++ findById(id: String): Product</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>656</x><y>424</y><w>200</w><h>120</h></coordinates><panel_attributes>PaymentProcessor
+--
+- transactionId: String
+- amount: double
+- cardId: String
+--
++ deductBalance(amount: double): boolean
++ confirmPayment(): void
++ refund(): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>64</x><y>616</y><w>210</w><h>150</h></coordinates><panel_attributes>AdminSystem
+--
+- pendingOrders: List&lt;Order&gt;
+- staffId: String
+- connectedKiosks: List&lt;Kiosk&gt;
+--
++ viewOrders(): List&lt;Order&gt;
++ updatePrice(id, p): void
++ updateAvailability(id, b): void
++ notifyKiosks(menu: Menu): void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>456</x><y>360</y><w>40</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-
+has</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>256</x><y>64</y><w>112</w><h>32</h></coordinates><panel_attributes>lt=&lt;&lt;-
+uses</panel_attributes><additional_attributes>120;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>552</x><y>88</y><w>120</w><h>32</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+1..*</panel_attributes><additional_attributes>130;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>760</x><y>168</y><w>40</w><h>72</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+1..*</panel_attributes><additional_attributes>10;70;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>848</x><y>120</y><w>64</w><h>352</h></coordinates><panel_attributes>lt=&lt;&lt;-
+pays</panel_attributes><additional_attributes>10;420;40;420;40;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>264</y><w>112</w><h>32</h></coordinates><panel_attributes>lt=&lt;&lt;-
+refers</panel_attributes><additional_attributes>10;20;120;20</additional_attributes></element><element><id>Relation</id><coordinates><x>168</x><y>136</y><w>200</w><h>96</h></coordinates><panel_attributes>lt=&lt;&lt;-
+logs</panel_attributes><additional_attributes>10;100;10;70;200;70;200;10;230;10</additional_attributes></element><element><id>Relation</id><coordinates><x>264</x><y>672</y><w>128</w><h>32</h></coordinates><panel_attributes>lt=&lt;&lt;-
+manages</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>248</x><y>360</y><w>136</w><h>88</h></coordinates><panel_attributes>lt=&lt;&lt;-
+has</panel_attributes><additional_attributes>150;10;150;90;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>8</x><y>120</y><w>424</w><h>704</h></coordinates><panel_attributes>lt=&lt;..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+notified by</panel_attributes><additional_attributes>510;800;510;860;10;860;10;50;370;50;370;10;430;10</additional_attributes></element><element><id>Relation</id><coordinates><x>488</x><y>544</y><w>64</w><h>104</h></coordinates><panel_attributes>lt=&lt;&lt;-
+contains</panel_attributes><additional_attributes>10;10;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>184</x><y>536</y><w>280</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;-
+contains</panel_attributes><additional_attributes>10;10;10;60;330;60;330;120</additional_attributes></element><element><id>Relation</id><coordinates><x>16</x><y>120</y><w>352</w><h>536</h></coordinates><panel_attributes>lt=&lt;..
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+notified by</panel_attributes><additional_attributes>60;650;10;650;10;60;370;60;370;20;420;20</additional_attributes></element></diagram>
