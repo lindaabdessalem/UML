@@ -22,7 +22,7 @@
 
 <div class="page-break"></div>
 
-## Sommaire
+## Table of Contents
 
 | Section | Title | Purpose |
 | --- | --- | --- |
@@ -340,7 +340,7 @@ src/main/java/edu/apu/kiosk
 | Customer ordering | 5 | Order total is calculated. |
 | Customer ordering | 6 | Selected payment strategy processes the payment. |
 | Customer ordering | 7 | If payment succeeds, the order is submitted and logged. |
-| Admin update | 1 | Admin staff update product price or availability. |
+| Admin update | 1 | Admin staff updates product price or availability. |
 | Admin update | 2 | Admin system changes central menu data. |
 | Admin update | 3 | Menu manager refreshes the shared menu state. |
 | Admin update | 4 | Registered kiosks receive and apply the update. |
