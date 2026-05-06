@@ -1,0 +1,23 @@
+sequenceDiagram
+    autonumber
+    actor Admin
+    participant AdminSystem
+    participant Menu
+    participant Product
+    participant Kiosk1 as Kiosk[1]
+    participant KioskN as Kiosk[n]
+
+    Admin->>AdminSystem: updatePrice(productId, newPrice)
+    AdminSystem->>Menu: findProduct(productId)
+    Menu-->>AdminSystem: product
+    AdminSystem->>Product: setPrice(newPrice)
+    Product->>Product: persist()
+    Product-->>AdminSystem: updated: boolean
+    AdminSystem->>Menu: setLastUpdated(now)
+    Menu-->>AdminSystem: menuUpdated
+    loop for each connected kiosk
+        AdminSystem->>Kiosk1: notifyMenuChanged(updatedMenu)
+        AdminSystem->>KioskN: notifyMenuChanged(updatedMenu)
+    end
+    Kiosk1-->>AdminSystem: ack()
+    KioskN-->>AdminSystem: ack()

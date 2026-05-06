@@ -1,0 +1,151 @@
+classDiagram
+direction TB
+
+namespace Observer {
+  class MenuSubject {
+    <<interface>>
+    +attach(o: MenuObserver): void
+    +detach(o: MenuObserver): void
+    +notifyObservers(): void
+  }
+
+  class MenuObserver {
+    <<interface>>
+    +update(menu: Menu): void
+  }
+
+  class AdminSystem {
+    -observers: List~MenuObserver~
+    -menu: Menu
+    -staffId: String
+    +attach(o: MenuObserver): void
+    +detach(o: MenuObserver): void
+    +notifyObservers(): void
+    +updatePrice(id, p): void
+    +updateAvailability(id, b): void
+  }
+
+  class Kiosk {
+    -kioskId: String
+    -location: String
+    -localMenu: Menu
+    -payStrategy: PaymentStrategy
+    +update(menu: Menu): void
+    +displayMenu(): void
+    +processOrder(): void
+    +refreshLocalMenu(): void
+  }
+}
+
+namespace Strategy {
+  class PaymentStrategy {
+    <<interface>>
+    +pay(amount: double): boolean
+    +getDescription(): String
+  }
+
+  class APCardPayment {
+    -cardId: String
+    -balance: double
+    +pay(amount: double): boolean
+    +deductBalance(a: double): void
+    +getDescription(): String
+  }
+
+  class QRCodePayment {
+    <<future>>
+    -qrToken: String
+    -sessionId: String
+    +pay(amount: double): boolean
+    +generateQR(): String
+    +getDescription(): String
+  }
+}
+
+namespace Singleton {
+  class MenuManager {
+    <<singleton>>
+    -instance: MenuManager
+    -menu: Menu
+    -kiosks: List~Kiosk~
+    +getInstance(): MenuManager
+    +getMenu(): Menu
+    +updateMenu(m: Menu): void
+    +broadcast(): void
+    +registerKiosk(k: Kiosk): void
+  }
+
+  class TransactionLogger {
+    <<singleton>>
+    -instance: TransactionLogger
+    -logs: List~LogEntry~
+    +getInstance(): TransactionLogger
+    +log(order: Order): void
+    +getLogs(kioskId: String): List
+    +exportLogs(): void
+  }
+}
+
+namespace Domain {
+  class Menu {
+    -menuId: String
+    -products: List~Product~
+    -lastUpdated: Date
+    +addProduct(p: Product): void
+    +removeProduct(id): void
+    +findById(id): Product
+  }
+
+  class Order {
+    -orderId: String
+    -items: List~OrderItem~
+    -totalCost: double
+    -status: OrderStatus
+    -userId: String
+    +submit(): void
+    +calculateTotal(): double
+  }
+
+  class Product {
+    <<abstract>>
+    -productId: String
+    -name: String
+    -price: double
+    -isAvailable: boolean
+    +getDetails(): String
+    +setPrice(p): void
+    +setAvailable(b): void
+  }
+
+  class Drink {
+    -size: String
+    -sugarLevel: String
+    -milkLevel: String
+    -iceLevel: String
+    +customise(): void
+    +getDetails(): String
+  }
+
+  class Snack {
+    -type: String
+    -ingredients: List~String~
+    -dressingChoice: String
+    +addIngredient(i): void
+    +getDetails(): String
+  }
+}
+
+MenuSubject <|.. AdminSystem : implements
+MenuObserver <|.. Kiosk : implements
+AdminSystem "1" o-- "0..*" MenuObserver : observers
+Kiosk --> PaymentStrategy : uses
+PaymentStrategy <|.. APCardPayment : implements
+PaymentStrategy <|.. QRCodePayment : implements
+MenuManager --> Menu : manages
+MenuManager --> Kiosk : broadcasts to
+TransactionLogger --> Order : logs
+Kiosk --> Menu : local copy
+Menu "1" o-- "0..*" Product : contains
+Product <|-- Drink
+Product <|-- Snack
+Order --> Product : items refer to

@@ -1,0 +1,18 @@
+sequenceDiagram
+    autonumber
+    actor User
+    participant Kiosk
+    participant Auth as AuthService
+    participant UserDB
+
+    User->>Kiosk: swipeCard(cardId)
+    Kiosk->>Auth: authenticate(cardId)
+    Auth->>UserDB: findUser(cardId)
+    UserDB-->>Auth: userRecord
+    Auth->>Auth: validateBalance()
+    Auth-->>Kiosk: authResult(user, balance)
+    alt balance >= 0
+        Kiosk-->>User: displayWelcome(name, balance)
+    else insufficient balance
+        Kiosk-->>User: displayError("Insufficient balance")
+    end

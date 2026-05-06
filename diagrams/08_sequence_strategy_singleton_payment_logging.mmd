@@ -1,0 +1,32 @@
+sequenceDiagram
+    autonumber
+    actor User
+    participant Kiosk
+    participant Order
+    participant Payment as PaymentStrategy
+    participant APCard as APCardPayment
+    participant QR as QRCodePayment
+    participant Logger as TransactionLogger
+
+    Note over Kiosk,QR: Strategy pattern lets the kiosk use interchangeable payment methods.
+    User->>Kiosk: confirmOrder()
+    Kiosk->>Order: calculateTotal()
+    Order-->>Kiosk: amount
+    alt AP card selected
+        Kiosk->>APCard: pay(amount)
+        APCard-->>Kiosk: approved / declined
+    else future QR selected
+        Kiosk->>QR: generateQR()
+        QR-->>User: QR token
+        Kiosk->>Payment: pay(amount)
+        Payment-->>Kiosk: approved / declined
+    end
+    alt payment approved
+        Kiosk->>Order: markPaid()
+        Kiosk->>Order: submit()
+        Note over Logger: Singleton pattern provides one shared transaction log.
+        Kiosk->>Logger: getInstance().log(kioskId, order)
+        Logger-->>Kiosk: logged
+    else payment declined
+        Kiosk-->>User: displayPaymentError()
+    end

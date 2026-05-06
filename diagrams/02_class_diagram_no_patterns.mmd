@@ -1,0 +1,121 @@
+classDiagram
+direction LR
+
+class User {
+  -userId: String
+  -name: String
+  -cardBalance: double
+  -cardId: String
+  +authenticate(): boolean
+  +getBalance(): double
+}
+
+class Kiosk {
+  -kioskId: String
+  -location: String
+  -isActive: boolean
+  +displayMenu(): void
+  +processOrder(): void
+  +updateMenu(menu: Menu): void
+  +logTransaction(o: Order): void
+}
+
+class Order {
+  -orderId: String
+  -timestamp: Date
+  -totalCost: double
+  -status: OrderStatus
+  -userId: String
+  +calculateTotal(): double
+  +submit(): void
+  +getStatus(): OrderStatus
+}
+
+class OrderItem {
+  -quantity: int
+  -customisations: List~String~
+  -lineTotal: double
+  +getLineTotal(): double
+  +addCustomisation(s: String): void
+}
+
+class Product {
+  <<abstract>>
+  -productId: String
+  -name: String
+  -price: double
+  -isAvailable: boolean
+  +getDetails(): String
+  +setPrice(p: double): void
+  +setAvailable(b: boolean): void
+}
+
+class Drink {
+  -size: String
+  -sugarLevel: String
+  -milkLevel: String
+  -iceLevel: String
+  -toppings: List~String~
+  +customise(): void
+  +getDetails(): String
+}
+
+class Snack {
+  -type: String
+  -ingredients: List~String~
+  -dressingChoice: String
+  +addIngredient(i: String): void
+  +removeIngredient(i: String): void
+  +getDetails(): String
+}
+
+class Menu {
+  -menuId: String
+  -products: List~Product~
+  -lastUpdated: Date
+  +addProduct(p: Product): void
+  +removeProduct(id: String): void
+  +getProducts(): List~Product~
+  +findById(id: String): Product
+}
+
+class PaymentProcessor {
+  -transactionId: String
+  -amount: double
+  -cardId: String
+  +deductBalance(amount: double): boolean
+  +confirmPayment(): void
+  +refund(): void
+}
+
+class TransactionLog {
+  -logId: String
+  -kioskId: String
+  -timestamp: Date
+  -orderId: String
+  -userId: String
+  +save(): void
+}
+
+class AdminSystem {
+  -pendingOrders: List~Order~
+  -staffId: String
+  -connectedKiosks: List~Kiosk~
+  +viewOrders(): List~Order~
+  +updatePrice(id, p): void
+  +updateAvailability(id, b): void
+  +notifyKiosks(menu: Menu): void
+}
+
+Product <|-- Drink
+Product <|-- Snack
+Menu "1" o-- "0..*" Product : contains
+Order "1" *-- "1..*" OrderItem : contains
+OrderItem "1" --> "1" Product : refers to
+User "1" --> "0..*" Order : places
+Kiosk "1" --> "0..*" Order : processes
+Kiosk --> Menu : displays
+Kiosk --> PaymentProcessor : pays through
+Kiosk --> TransactionLog : logs
+AdminSystem --> Menu : manages
+AdminSystem --> Kiosk : notifies

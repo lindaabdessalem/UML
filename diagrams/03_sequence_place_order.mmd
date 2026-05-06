@@ -1,0 +1,21 @@
+sequenceDiagram
+    autonumber
+    actor User
+    participant Kiosk
+    participant Menu
+    participant Order
+    participant Payment as PaymentProcessor
+
+    User->>Kiosk: swipeCard(cardId)
+    Kiosk->>Menu: getProducts()
+    Menu-->>Kiosk: products: List
+    Kiosk-->>User: displayMenu(products)
+    User->>Kiosk: selectItem(itemId, qty)
+    Kiosk->>Menu: customise(options)
+    Kiosk->>Order: createOrder(items)
+    Order->>Order: calculateTotal()
+    Order->>Payment: deductBalance(amount)
+    Payment-->>Order: paymentConfirmed
+    Order->>Order: submit()
+    Order-->>Kiosk: orderConfirmed(orderId)
+    Kiosk-->>User: showConfirmation()

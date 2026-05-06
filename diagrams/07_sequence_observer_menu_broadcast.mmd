@@ -1,0 +1,21 @@
+sequenceDiagram
+    autonumber
+    actor Admin
+    participant AdminSystem
+    participant Menu
+    participant MenuManager
+    participant Kiosk1 as Kiosk 1
+    participant KioskN as Kiosk n
+
+    Note over AdminSystem,KioskN: Observer pattern keeps all kiosk menus synchronised.
+    Kiosk1->>AdminSystem: attach(this)
+    KioskN->>AdminSystem: attach(this)
+    Admin->>AdminSystem: updateAvailability(productId, false)
+    AdminSystem->>Menu: findById(productId)
+    Menu-->>AdminSystem: Product
+    AdminSystem->>Menu: setAvailable(false)
+    AdminSystem->>MenuManager: updateMenu(menu)
+    MenuManager->>Kiosk1: update(menu)
+    MenuManager->>KioskN: update(menu)
+    AdminSystem->>Kiosk1: notifyObservers()
+    AdminSystem->>KioskN: notifyObservers()
