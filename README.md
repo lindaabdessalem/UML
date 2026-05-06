@@ -1,64 +1,54 @@
-# APU Kiosk UML Project
+# OMU Mini Project - Final Submission Package
 
-This project is based on the UXF files uploaded to GitHub. The first use case diagram keeps the UXF-style rendering, while the other diagrams use clean Mermaid redraws for a squarer final presentation.
+## What To Submit
 
-## Main source documents
+Locally, the clean submission package to upload is:
 
-- `01_use_case_diagram.uxf`
-- `02_class_diagram_no_patterns.uxf`
-- `03_sequence_place_order.uxf`
-- `04_sequence_update_menu.uxf`
-- `05_sequence_authenticate_user.uxf`
-- `06_class_diagram_with_patterns.uxf`
-- `docs/OMU-Assignment-2601.pdf`
+```text
+OMU-final-submission.zip
+```
 
-## Project structure
+The same content is also available unpacked locally in:
+
+```text
+final-submission/
+```
+
+## Package Contents
+
+The zip contains only the files needed for the final hand-in:
 
 ```text
 .
-|-- *.uxf                  # Main UMLet source diagrams uploaded to GitHub
-|-- diagrams/              # Clean Mermaid redraws for diagrams 02-08
-|-- docs/                  # Assignment PDF
-|-- images/                # Final SVG and PNG exports
-|-- report/                # Written report and requirements mapping
-|-- scripts/               # Rendering scripts
-`-- src/main/java/         # Java skeleton implementing the patterns
+|-- final-report.pdf                 # Main report to read first
+|-- 01_use_case_diagram.uxf           # UMLet source diagrams
+|-- 02_class_diagram_no_patterns.uxf
+|-- 03_sequence_place_order.uxf
+|-- 04_sequence_update_menu.uxf
+|-- 05_sequence_authenticate_user.uxf
+|-- 06_class_diagram_with_patterns.uxf
+|-- images/                          # SVG and PNG diagram exports
+|-- diagrams/                        # Mermaid sources for clean redraws
+|-- src/main/java/                   # Java skeletal implementation
+|-- pom.xml                          # Maven project file
+`-- README.md
 ```
 
-## Rendering diagrams
+## How To Review
 
-Regenerate all clean SVG and PNG files:
+1. Open `final-report.pdf`.
+2. Check the `.uxf` files if editable UML diagrams are required.
+3. Use `images/` for exported diagram versions.
+4. Review `src/main/java/` for the Java implementation.
 
-```powershell
-.\scripts\render-diagrams.ps1
-```
+## Implemented Design Patterns
 
-## Report files
+| Pattern | Main Classes |
+| --- | --- |
+| Observer | `MenuSubject`, `MenuObserver`, `AdminSystem`, `Kiosk` |
+| Strategy | `PaymentStrategy`, `APCardPayment`, `QRCodePayment` |
+| Singleton | `MenuManager`, `TransactionLogger` |
 
-The main submission report is available in three formats:
+## Note
 
-- `report/report.md`: editable Markdown source
-- `report/final-report.html`: printable HTML version
-- `report/final-report.pdf`: PDF export generated from the HTML version
-
-To rebuild the printable HTML after editing `report/report.md`:
-
-```powershell
-.\scripts\build-report-html.ps1
-```
-
-To rebuild the PDF without browser date/title/URL headers and footers:
-
-```powershell
-.\scripts\build-report-pdf.ps1
-```
-
-## Java implementation
-
-The Java code implements the patterns shown in `06_class_diagram_with_patterns.uxf` and the clean redraw `diagrams/06_class_diagram_with_patterns.mmd`:
-
-- Observer: `MenuSubject`, `MenuObserver`, `AdminSystem`, `Kiosk`
-- Strategy: `PaymentStrategy`, `APCardPayment`, `QRCodePayment`
-- Singleton: `MenuManager`, `TransactionLogger`
-
-The code is intentionally skeletal, matching the assignment requirement to implement the design patterns without building a full production kiosk application.
+The Java code is a skeletal implementation for the UML design and selected patterns. It is structured as a Java 17 Maven project through `pom.xml`.
