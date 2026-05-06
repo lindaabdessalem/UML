@@ -9,8 +9,8 @@
 | Updated class diagram with 2-3 design patterns | `06_class_diagram_with_patterns.uxf`, clean redraw `diagrams/06_class_diagram_with_patterns.mmd`, and matching images |
 | Sequence diagrams showing pattern interaction | `diagrams/07_sequence_observer_menu_broadcast.mmd`, `diagrams/08_sequence_strategy_singleton_payment_logging.mmd` and matching images |
 | Pattern implementation in Java | `src/main/java/edu/apu/kiosk` |
-| Brief evaluation of patterns | `report/report.md`, section 5 |
-| Critical appraisal report | `report/report.md`, section 8 |
+| Brief evaluation of patterns | `report/report.md`, sections 3 and 7 |
+| Critical appraisal report | `report/report.md`, section 7 |
 | References | `report/report.md`, section 9 |
 
 ## Final Report Outputs

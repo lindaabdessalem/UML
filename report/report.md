@@ -13,7 +13,7 @@
 | Assessment | OMU Mini Project |
 | Submission Type | UML Report and Java Skeletal Implementation |
 | Academic Year | 2026 |
-| Group Members | _Add names and student IDs_ |
+| Group Members | Feriel Dekhili, Linda Abdessamel, Sarah Benhammadi |
 | Main Design Sources | Uploaded UXF diagrams and assignment brief |
 
 <p class="cover-note">This report documents the analysis, UML design, pattern refinement, Java implementation evidence, and critical appraisal for the campus kiosk ordering system.</p>
