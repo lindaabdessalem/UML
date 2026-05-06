@@ -47,6 +47,12 @@ To rebuild the printable HTML after editing `report/report.md`:
 .\scripts\build-report-html.ps1
 ```
 
+To rebuild the PDF without browser date/title/URL headers and footers:
+
+```powershell
+.\scripts\build-report-pdf.ps1
+```
+
 ## Java implementation
 
 The Java code implements the patterns shown in `06_class_diagram_with_patterns.uxf` and the clean redraw `diagrams/06_class_diagram_with_patterns.mmd`:
