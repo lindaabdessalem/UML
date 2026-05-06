@@ -40,6 +40,59 @@ $template = @"
       background: white;
     }
 
+    .cover-page {
+      min-height: 248mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      border: 2px solid #1f2937;
+      padding: 22mm 18mm;
+      box-sizing: border-box;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .cover-page h1 {
+      margin: 0;
+      text-align: center;
+      font-size: 25pt;
+      line-height: 1.15;
+    }
+
+    .cover-page h2 {
+      margin: 4px 0 18px;
+      padding: 0;
+      border: 0;
+      text-align: center;
+      font-size: 17pt;
+      line-height: 1.25;
+      color: #374151;
+    }
+
+    .cover-kicker {
+      margin: 0;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 10pt;
+      font-weight: 700;
+      color: #4b5563;
+    }
+
+    .cover-note {
+      margin: 14px auto 0;
+      max-width: 145mm;
+      text-align: center;
+      color: #374151;
+      font-size: 10.5pt;
+    }
+
+    .page-break {
+      break-after: page;
+      page-break-after: always;
+      height: 0;
+    }
+
     h1 {
       margin: 0 0 20px;
       text-align: center;
@@ -96,6 +149,10 @@ $template = @"
       text-align: left;
     }
 
+    tr:nth-child(even) td {
+      background: #fbfdff;
+    }
+
     img {
       display: block;
       max-width: 100%;
@@ -103,6 +160,14 @@ $template = @"
       object-fit: contain;
       margin: 12px auto 8px;
       border: 1px solid #e5e7eb;
+    }
+
+    .caption {
+      margin: 0 0 18px;
+      text-align: center;
+      font-size: 9.5pt;
+      color: #4b5563;
+      font-style: italic;
     }
 
     pre {
@@ -140,6 +205,10 @@ $template = @"
 
       img, table, pre {
         break-inside: avoid;
+      }
+
+      .cover-page {
+        min-height: 260mm;
       }
     }
   </style>

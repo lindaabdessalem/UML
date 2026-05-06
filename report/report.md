@@ -1,163 +1,266 @@
+<section class="cover-page">
+
+<p class="cover-kicker">Object Modelling with UML</p>
+
 # OMU Mini Project Final Report
 
-**Project Title:** APU Campus Wide Drinks and Snack Ordering Kiosk System  
-**Module:** Object Modelling with UML  
-**Submission:** UML report and Java skeletal implementation  
-**Institution:** Asia Pacific University of Technology and Innovation  
-**Year:** 2026  
-**Group Members:** _Add names and student IDs_  
+## APU Campus Wide Drinks and Snack Ordering Kiosk System
 
-This report presents an object-oriented design for the APU drinks and snack ordering kiosk system. It uses the uploaded UXF diagrams as the main design basis, includes rendered versions of the diagrams, and documents a Java skeleton implementing the selected design patterns.
+| Report Item | Details |
+| --- | --- |
+| Institution | Asia Pacific University of Technology and Innovation |
+| Module | Object Modelling with UML |
+| Assessment | OMU Mini Project |
+| Submission Type | UML Report and Java Skeletal Implementation |
+| Academic Year | 2026 |
+| Group Members | _Add names and student IDs_ |
+| Main Design Sources | Uploaded UXF diagrams and assignment brief |
 
-## Table of Contents
+<p class="cover-note">This report documents the analysis, UML design, pattern refinement, Java implementation evidence, and critical appraisal for the campus kiosk ordering system.</p>
 
-1. Introduction and Project Plan
-2. Analysis and UML Design
-3. Design Pattern Refinement
-4. Implementation
-5. Scenario Walkthrough
-6. Compliance Assessment
-7. Critical Appraisal
-8. Conclusion and Future Enhancements
-9. References
+</section>
+
+<div class="page-break"></div>
+
+## Sommaire
+
+| Section | Title | Purpose |
+| --- | --- | --- |
+| 1 | Introduction and Project Plan | Defines the scenario, objectives, stakeholders, and scope. |
+| 2 | Analysis and UML Design | Presents the use case, class, and sequence diagrams. |
+| 3 | Design Pattern Refinement | Explains Observer, Strategy, and Singleton in the refined model. |
+| 4 | Implementation | Maps the UML model to the Java skeleton. |
+| 5 | Scenario Walkthrough | Summarises the customer and admin flows. |
+| 6 | Compliance Assessment | Checks the submission against the assignment requirements. |
+| 7 | Critical Appraisal | Evaluates strengths, limitations, risks, and pattern suitability. |
+| 8 | Conclusion and Future Enhancements | Closes the report and proposes future work. |
+| 9 | References | Lists sources used for the assignment. |
+
+## List of Figures
+
+| Figure | Diagram | Source |
+| --- | --- | --- |
+| Figure 1 | High-level use case diagram | `01_use_case_diagram.uxf` |
+| Figure 2 | Initial class diagram without design patterns | `02_class_diagram_no_patterns.uxf` |
+| Figure 3 | Place order sequence diagram | `03_sequence_place_order.uxf` |
+| Figure 4 | Update menu sequence diagram | `04_sequence_update_menu.uxf` |
+| Figure 5 | Authenticate user sequence diagram | `05_sequence_authenticate_user.uxf` |
+| Figure 6 | Refined class diagram with design patterns | `06_class_diagram_with_patterns.uxf` |
+| Figure 7 | Observer menu broadcast sequence | `diagrams/07_sequence_observer_menu_broadcast.mmd` |
+| Figure 8 | Strategy and Singleton payment/logging sequence | `diagrams/08_sequence_strategy_singleton_payment_logging.mmd` |
+
+## List of Tables
+
+| Table | Content |
+| --- | --- |
+| Table 1 | Project objectives |
+| Table 2 | Stakeholder scope |
+| Table 3 | Major functions |
+| Table 4 | Use case descriptions |
+| Table 5 | Initial class responsibilities |
+| Table 6 | Sequence diagram summary |
+| Table 7 | Pattern selection |
+| Table 8 | Java implementation mapping |
+| Table 9 | Scenario walkthrough |
+| Table 10 | Compliance assessment |
+| Table 11 | Critical appraisal summary |
+
+<div class="page-break"></div>
 
 ## 1. Introduction and Project Plan
 
-Asia Pacific University plans to deploy a kiosk system that allows students, staff, and lecturers to order drinks and snacks before collecting them from the snack booth. The system is intended to reduce queue pressure around the booth by letting users browse products, customise selected items, pay through the AP card system, and send confirmed orders to the preparation area.
+Asia Pacific University plans to deploy a campus-wide kiosk system that allows students, staff, and lecturers to order drinks and snacks before collecting them from the snack booth. The system should reduce queue pressure around the booth by letting users browse products, customise selected items, pay through the AP card system, and send confirmed orders to the preparation area.
 
-The first deployment contains five kiosks, but the design should remain suitable if the campus later expands the system to ten kiosks. This creates two important design concerns: product information must be maintained centrally, and all kiosks must receive consistent price and availability updates.
+The first deployment contains five kiosks, with a possible future expansion to ten. Because several kiosks will access the same product information, the design must support centralised product updates and consistent menu synchronisation.
 
 ### 1.1 Project Objectives
 
-- Model the kiosk scenario using UML use case, class, and sequence diagrams.
-- Identify the main users, system responsibilities, and runtime interactions.
-- Refine the class design with two to three suitable object-oriented design patterns.
-- Implement the selected patterns in a Java skeletal prototype.
-- Evaluate the design for maintainability, extensibility, and coursework suitability.
+| Objective | Expected Outcome |
+| --- | --- |
+| Model the kiosk scenario with UML | Provide use case, class, and sequence diagrams that explain the system clearly. |
+| Identify system responsibilities | Separate kiosk interaction, payment, menu management, authentication, and logging. |
+| Refine the design with patterns | Use two to three patterns that directly solve design problems in the scenario. |
+| Implement a Java skeleton | Demonstrate the selected patterns in code without building a full production system. |
+| Evaluate the solution | Discuss strengths, weaknesses, concurrency concerns, and future improvements. |
 
-### 1.2 Scope and End Users
+### 1.2 Scope and Stakeholders
 
-The primary end users are students, staff, and lecturers who place orders through kiosks. Admin staff update product prices and availability. Preparation staff receive order notifications and prepare the selected drinks and snacks. The AP card service supports identification and payment.
+| Stakeholder | Role in the System | Main Concern |
+| --- | --- | --- |
+| Student / Staff / Lecturer | Uses the kiosk to order drinks and snacks. | Fast ordering, clear menu, successful payment. |
+| Admin Staff | Updates product price and availability. | Central control and reliable menu synchronisation. |
+| Preparation Staff | Receives paid orders for preparation. | Accurate order details and timely notifications. |
+| AP Card Service | Supports card identification and payment. | Correct balance lookup and safe deduction. |
+| Kiosk System | Coordinates ordering, payment, logging, and menu display. | Maintainable and extensible object-oriented design. |
 
 ### 1.3 Major Functions
 
-- Identify a user and show their current AP card balance.
-- Display available drinks and snacks.
-- Allow customisation of drinks and snacks.
-- Create and submit an order.
-- Deduct the order amount from the AP card balance.
-- Notify the preparation area of paid orders.
-- Log kiosk transactions.
-- Update product prices and availability centrally.
-- Broadcast menu changes to connected kiosks.
+| Function Area | Requirement |
+| --- | --- |
+| Identification | Read the AP card and display the current balance. |
+| Menu browsing | Show available drinks and snacks at the kiosk. |
+| Customisation | Support options such as size, sugar level, milk level, ice level, toppings, ingredients, and dressing. |
+| Ordering | Create and submit an order containing one or more items. |
+| Payment | Deduct the order amount from the AP card balance. |
+| Preparation notification | Send confirmed orders to the snack booth preparation area. |
+| Logging | Record kiosk transactions for traceability. |
+| Administration | Update product prices and availability centrally. |
+| Synchronisation | Broadcast menu changes to connected kiosks. |
 
 ## 2. Analysis and UML Design
 
 ### 2.1 Use Case Model
 
-**Source:** `01_use_case_diagram.uxf`  
-**Rendered image:** `images/01_use_case_diagram.svg`
+| Item | Detail |
+| --- | --- |
+| UXF source | `01_use_case_diagram.uxf` |
+| Rendered image | `images/01_use_case_diagram.svg` |
+| Purpose | Identify actors, core kiosk functions, and admin functions. |
 
-![Figure 1. High-level use case diagram.](../images/01_use_case_diagram.svg)
+![High-level use case diagram.](../images/01_use_case_diagram.svg)
 
-Figure 1 shows the main actors and use cases. Students and staff use the ordering workflow, while admin staff manage product updates and order notifications. The use cases also show supporting operations such as payment deduction, transaction logging, and broadcasting menu changes.
+<p class="caption">Figure 1. High-level use case diagram for the APU kiosk ordering system.</p>
+
+The use case model shows the main ordering workflow for students, staff, and lecturers. It also includes administrative actions such as updating price and availability and broadcasting menu changes. The diagram keeps payment deduction and transaction logging visible because they are essential supporting behaviours.
 
 ### 2.2 Main Use Case Descriptions
 
-| Use Case | Description | Main Actor |
-| --- | --- | --- |
-| Identify user / check balance | The kiosk reads the AP card, authenticates the card ID, and displays user details with the available balance. | Student, staff, lecturer |
-| Browse menu | The user views the current list of drinks and snacks available at the kiosk. | Student, staff, lecturer |
-| Customise drink / snack | The user chooses options such as drink size, sugar level, milk level, ice level, toppings, sandwich ingredients, or dressing. | Student, staff, lecturer |
-| Place order | The system creates an order from selected items, calculates the total, requests payment, and confirms the order if payment succeeds. | Student, staff, lecturer |
-| Deduct card balance | The payment logic deducts the order total from the AP card balance. | AP card payment service |
-| Log transaction | The kiosk records the order and payment event for traceability. | Kiosk system |
-| Receive order notification | Paid order details are made available to snack booth staff for preparation. | Preparation/admin staff |
-| Update price / availability | Admin staff change product price or availability from the admin system. | Admin staff |
-| Broadcast menu changes | Connected kiosks receive the latest menu state after an admin update. | Admin system |
+| Use Case | Description | Main Actor | Result |
+| --- | --- | --- | --- |
+| Identify user / check balance | The kiosk reads the AP card, authenticates the card ID, and displays user details with the available balance. | Student, staff, lecturer | User can continue ordering if authentication succeeds. |
+| Browse menu | The user views the current list of drinks and snacks available at the kiosk. | Student, staff, lecturer | Available products are displayed. |
+| Customise drink / snack | The user chooses options such as size, sugar level, milk level, ice level, toppings, sandwich ingredients, or dressing. | Student, staff, lecturer | Selected product is updated with customisation details. |
+| Place order | The system creates an order, calculates the total, requests payment, and confirms the order if payment succeeds. | Student, staff, lecturer | Paid order is submitted. |
+| Deduct card balance | The payment logic deducts the order total from the AP card balance. | AP card payment service | Balance is updated after payment. |
+| Log transaction | The kiosk records the order and payment event for traceability. | Kiosk system | Transaction is stored in the log. |
+| Receive order notification | Paid order details are made available to snack booth staff for preparation. | Preparation/admin staff | Preparation staff can prepare the order. |
+| Update price / availability | Admin staff change product price or availability from the admin system. | Admin staff | Central product data is updated. |
+| Broadcast menu changes | Connected kiosks receive the latest menu state after an admin update. | Admin system | Kiosk menus remain consistent. |
 
 ### 2.3 Initial Class Diagram
 
-**Source:** `02_class_diagram_no_patterns.uxf`  
-**Clean redraw:** `diagrams/02_class_diagram_no_patterns.mmd`
+| Item | Detail |
+| --- | --- |
+| UXF source | `02_class_diagram_no_patterns.uxf` |
+| Clean source | `diagrams/02_class_diagram_no_patterns.mmd` |
+| Rendered image | `images/02_class_diagram_no_patterns.svg` |
+| Purpose | Show the first object model before adding design patterns. |
 
-![Figure 2. Initial class diagram without design patterns.](../images/02_class_diagram_no_patterns.svg)
+![Initial class diagram without design patterns.](../images/02_class_diagram_no_patterns.svg)
 
-Figure 2 models the system before design patterns are introduced. `User`, `Kiosk`, `Order`, `OrderItem`, `Product`, `Drink`, `Snack`, `Menu`, `PaymentProcessor`, `TransactionLog`, and `AdminSystem` form the core object model.
+<p class="caption">Figure 2. Initial class diagram without design patterns.</p>
 
-The initial design is understandable, but some responsibilities are still broad. For example, `Kiosk` processes orders, updates menus, and logs transactions. The refined design improves this by separating payment behaviour, menu update notification, and shared logging/menu management.
+| Class | Main Responsibility |
+| --- | --- |
+| `User` | Stores user identity, card ID, and card balance. |
+| `Kiosk` | Displays the menu, processes orders, updates menu data, and logs transactions. |
+| `Order` | Represents the order status, timestamp, user, and total cost. |
+| `OrderItem` | Represents a selected product, quantity, and customisations. |
+| `Product` | Abstract product type containing common product details. |
+| `Drink` | Product subtype for beverages and drink customisation. |
+| `Snack` | Product subtype for snacks, ingredients, and dressing choices. |
+| `Menu` | Stores products and supports product lookup. |
+| `PaymentProcessor` | Handles payment confirmation and card balance deduction. |
+| `TransactionLog` | Saves transaction information. |
+| `AdminSystem` | Manages menu updates and connected kiosks. |
+
+The initial design is understandable, but some classes still carry broad responsibilities. The refined class diagram improves this by separating menu notification, payment behaviour, and shared menu/logging services.
 
 ### 2.4 Sequence Diagrams
 
-The following three sequence diagrams document the main runtime flows required by the assignment.
+| Figure | Flow | Main Purpose |
+| --- | --- | --- |
+| Figure 3 | Place order | Shows item selection, order creation, payment, and confirmation. |
+| Figure 4 | Update menu | Shows central product update and kiosk notification. |
+| Figure 5 | Authenticate user | Shows card authentication and balance validation. |
 
 #### 2.4.1 Place Order
 
-**Source:** `03_sequence_place_order.uxf`  
-**Clean redraw:** `diagrams/03_sequence_place_order.mmd`
+| Item | Detail |
+| --- | --- |
+| UXF source | `03_sequence_place_order.uxf` |
+| Clean source | `diagrams/03_sequence_place_order.mmd` |
 
-![Figure 3. Sequence diagram for placing an order.](../images/03_sequence_place_order.svg)
+![Sequence diagram for placing an order.](../images/03_sequence_place_order.svg)
 
-The place order sequence begins when the user swipes an AP card and views the menu. The user selects an item and customisation options, the kiosk creates the order, the order total is calculated, payment is deducted, and the confirmation is displayed.
+<p class="caption">Figure 3. Sequence diagram for placing an order.</p>
+
+The place order sequence begins when the user swipes an AP card and views the menu. The user selects an item and customisation options, the kiosk creates the order, the total is calculated, payment is deducted, and confirmation is displayed.
 
 #### 2.4.2 Update Menu
 
-**Source:** `04_sequence_update_menu.uxf`  
-**Clean redraw:** `diagrams/04_sequence_update_menu.mmd`
+| Item | Detail |
+| --- | --- |
+| UXF source | `04_sequence_update_menu.uxf` |
+| Clean source | `diagrams/04_sequence_update_menu.mmd` |
 
-![Figure 4. Sequence diagram for updating the menu.](../images/04_sequence_update_menu.svg)
+![Sequence diagram for updating the menu.](../images/04_sequence_update_menu.svg)
 
-The update menu sequence shows admin staff changing product data centrally. The system finds the product, updates its price or availability, records the update, refreshes the menu timestamp, and notifies connected kiosks.
+<p class="caption">Figure 4. Sequence diagram for updating the menu.</p>
+
+The update menu sequence shows admin staff changing product data centrally. The system finds the product, updates its price or availability, refreshes the menu timestamp, and notifies connected kiosks.
 
 #### 2.4.3 Authenticate User
 
-**Source:** `05_sequence_authenticate_user.uxf`  
-**Clean redraw:** `diagrams/05_sequence_authenticate_user.mmd`
+| Item | Detail |
+| --- | --- |
+| UXF source | `05_sequence_authenticate_user.uxf` |
+| Clean source | `diagrams/05_sequence_authenticate_user.mmd` |
 
-![Figure 5. Sequence diagram for authenticating a user.](../images/05_sequence_authenticate_user.svg)
+![Sequence diagram for authenticating a user.](../images/05_sequence_authenticate_user.svg)
+
+<p class="caption">Figure 5. Sequence diagram for authenticating a user.</p>
 
 The authentication sequence shows the kiosk sending a card ID to the authentication service. The service searches for the user record, validates the balance, and returns either a successful authentication result or an error.
 
 ## 3. Design Pattern Refinement
 
-The refined design introduces three patterns: Observer, Strategy, and Singleton. These patterns are chosen because they solve specific problems in the kiosk scenario rather than being added only for demonstration.
+The refined design introduces Observer, Strategy, and Singleton. These patterns solve concrete problems from the kiosk scenario: multi-kiosk menu synchronisation, payment flexibility, and shared access to menu/logging services.
 
 ### 3.1 Selected Patterns
 
-| Pattern | Role in the Solution | Reason for Selection |
-| --- | --- | --- |
-| Observer | `AdminSystem` notifies `Kiosk` observers when menu data changes. | Supports central product updates across multiple kiosks without hard-coding every kiosk into admin logic. |
-| Strategy | `Kiosk` depends on `PaymentStrategy`, with `APCardPayment` as the current implementation and `QRCodePayment` as a future option. | Keeps payment behaviour replaceable if the university later adds another cashless method. |
-| Singleton | `MenuManager` and `TransactionLogger` provide shared access points for menu management and transaction logging. | Helps coordinate shared services that should not have conflicting instances in the skeleton design. |
+| Pattern | UML Classes | Role in the Solution | Reason for Selection |
+| --- | --- | --- | --- |
+| Observer | `MenuSubject`, `MenuObserver`, `AdminSystem`, `Kiosk` | Admin/menu logic notifies kiosks when product data changes. | Supports central updates across several kiosks without hard-coded dependencies. |
+| Strategy | `PaymentStrategy`, `APCardPayment`, `QRCodePayment` | Kiosk delegates payment behaviour to a replaceable strategy. | Allows the current AP card method and future payment methods to share one interface. |
+| Singleton | `MenuManager`, `TransactionLogger` | Provides shared menu and logging access points. | Prevents conflicting manager/logger instances in the skeletal design. |
 
 ### 3.2 Refined Class Diagram with Patterns
 
-**Source:** `06_class_diagram_with_patterns.uxf`  
-**Clean redraw:** `diagrams/06_class_diagram_with_patterns.mmd`
+| Item | Detail |
+| --- | --- |
+| UXF source | `06_class_diagram_with_patterns.uxf` |
+| Clean source | `diagrams/06_class_diagram_with_patterns.mmd` |
+| Patterns shown | Observer, Strategy, Singleton |
 
-![Figure 6. Refined class diagram with Observer, Strategy, and Singleton.](../images/06_class_diagram_with_patterns.svg)
+![Refined class diagram with Observer, Strategy, and Singleton.](../images/06_class_diagram_with_patterns.svg)
 
-Figure 6 separates the design into pattern-focused areas. The Observer interfaces define menu synchronisation. The Strategy interface defines interchangeable payment behaviour. The Singleton classes centralise shared menu and log access.
+<p class="caption">Figure 6. Refined class diagram with Observer, Strategy, and Singleton.</p>
+
+The refined class diagram separates pattern responsibilities from the core domain classes. This makes it easier to understand which classes support business data and which classes support extensibility.
 
 ### 3.3 Pattern Interaction Diagrams
 
-The uploaded UXF files include the refined class diagram with patterns. To make the pattern behaviour clearer, two additional sequence diagrams show how the selected patterns interact at runtime.
+| Figure | Pattern Focus | Runtime Idea |
+| --- | --- | --- |
+| Figure 7 | Observer | Kiosks receive menu update notifications after admin changes. |
+| Figure 8 | Strategy + Singleton | Kiosk selects a payment strategy and logs successful transactions through one shared logger. |
 
 #### 3.3.1 Observer Menu Broadcast
 
-**Source:** `diagrams/07_sequence_observer_menu_broadcast.mmd`
+![Observer sequence for menu broadcast.](../images/07_sequence_observer_menu_broadcast.svg)
 
-![Figure 7. Observer sequence for menu broadcast.](../images/07_sequence_observer_menu_broadcast.svg)
+<p class="caption">Figure 7. Observer sequence for menu broadcast.</p>
 
-Figure 7 shows kiosks registering for menu updates. When an admin changes product availability, the central menu state is updated and the kiosks receive the change through observer notifications.
+This sequence shows kiosks registering for menu updates. When an admin changes product availability, the central menu state is updated and kiosks receive the change through observer notifications.
 
 #### 3.3.2 Strategy and Singleton Payment Logging
 
-**Source:** `diagrams/08_sequence_strategy_singleton_payment_logging.mmd`
+![Strategy and Singleton sequence for payment and logging.](../images/08_sequence_strategy_singleton_payment_logging.svg)
 
-![Figure 8. Strategy and Singleton sequence for payment and logging.](../images/08_sequence_strategy_singleton_payment_logging.svg)
+<p class="caption">Figure 8. Strategy and Singleton sequence for payment and logging.</p>
 
-Figure 8 shows the kiosk using a payment strategy to process the order. If payment succeeds, the order is submitted and the shared transaction logger records the event.
+This sequence shows the kiosk using a payment strategy to process an order. If payment succeeds, the order is submitted and the shared transaction logger records the event.
 
 ## 4. Implementation
 
@@ -199,42 +302,44 @@ src/main/java/edu/apu/kiosk
 
 ### 4.2 Implemented Pattern Evidence
 
-| Code Area | Evidence |
-| --- | --- |
-| `observer/MenuSubject.java` and `observer/MenuObserver.java` | Define the subject/observer contract used for menu update notifications. |
-| `service/AdminSystem.java` | Implements the subject role by attaching, detaching, and notifying menu observers. |
-| `service/Kiosk.java` | Implements the observer role and receives menu updates. It also depends on `PaymentStrategy`. |
-| `strategy/PaymentStrategy.java` | Defines the interchangeable payment interface. |
-| `strategy/APCardPayment.java` and `strategy/QRCodePayment.java` | Provide current and future payment strategies. |
-| `singleton/MenuManager.java` | Provides a shared menu manager instance. |
-| `singleton/TransactionLogger.java` | Provides a shared transaction logging instance. |
-| `app/DemoApplication.java` | Demonstrates authentication, menu setup, order creation, payment, observer registration, and logging. |
+| Code Area | Pattern / Responsibility | Evidence |
+| --- | --- | --- |
+| `observer/MenuSubject.java` | Observer subject contract | Defines `attach`, `detach`, and `notifyObservers`. |
+| `observer/MenuObserver.java` | Observer listener contract | Defines `update(menu)`. |
+| `service/AdminSystem.java` | Concrete subject | Stores observers and notifies them after product updates. |
+| `service/Kiosk.java` | Concrete observer and kiosk workflow | Receives menu updates and processes orders using a payment strategy. |
+| `strategy/PaymentStrategy.java` | Strategy interface | Defines the `pay(amount)` operation. |
+| `strategy/APCardPayment.java` | Current payment strategy | Implements AP card balance deduction. |
+| `strategy/QRCodePayment.java` | Future payment strategy | Shows how a new payment method can be introduced later. |
+| `singleton/MenuManager.java` | Singleton menu manager | Provides one shared menu manager instance. |
+| `singleton/TransactionLogger.java` | Singleton logger | Provides one shared transaction log. |
+| `app/DemoApplication.java` | Demonstration scenario | Shows menu setup, authentication, order creation, payment, observer registration, and logging. |
 
 ### 4.3 Verification
 
-The diagram rendering scripts were executed successfully and produced both SVG and PNG outputs in `images/`. The local terminal does not currently expose `java`, `javac`, or `mvn`, so full Java compilation could not be executed in this environment. The source structure and code are prepared for a Java 17 Maven environment.
+| Verification Item | Result |
+| --- | --- |
+| Diagram rendering | SVG and PNG files were generated in `images/`. |
+| Report generation | `report/final-report.html` and `report/final-report.pdf` were generated. |
+| Link check | Report image links resolve to existing files. |
+| Java compilation | Not executed locally because `java`, `javac`, and `mvn` are not available in this terminal. |
+| Expected Java environment | Java 17 with Maven, based on `pom.xml`. |
 
 ## 5. Scenario Walkthrough
 
-### 5.1 Customer Ordering Flow
-
-1. The user swipes an AP card at the kiosk.
-2. The authentication service validates the card and returns the user balance.
-3. The kiosk displays available menu products.
-4. The user selects drinks or snacks and adds customisation options.
-5. The order total is calculated.
-6. The selected payment strategy processes the payment.
-7. If payment succeeds, the order is submitted.
-8. The transaction logger stores the order event.
-9. The preparation area receives the confirmed order information.
-
-### 5.2 Admin Update Flow
-
-1. Admin staff update a product price or availability status.
-2. The admin system changes the central menu data.
-3. The menu manager refreshes the shared menu state.
-4. Registered kiosks receive the update.
-5. Each kiosk refreshes its local menu view.
+| Flow | Step | Description |
+| --- | --- | --- |
+| Customer ordering | 1 | User swipes an AP card at the kiosk. |
+| Customer ordering | 2 | Authentication service validates the card and returns the balance. |
+| Customer ordering | 3 | Kiosk displays available menu products. |
+| Customer ordering | 4 | User selects drinks or snacks and adds customisation options. |
+| Customer ordering | 5 | Order total is calculated. |
+| Customer ordering | 6 | Selected payment strategy processes the payment. |
+| Customer ordering | 7 | If payment succeeds, the order is submitted and logged. |
+| Admin update | 1 | Admin staff update product price or availability. |
+| Admin update | 2 | Admin system changes central menu data. |
+| Admin update | 3 | Menu manager refreshes the shared menu state. |
+| Admin update | 4 | Registered kiosks receive and apply the update. |
 
 ## 6. Compliance Assessment
 
@@ -246,39 +351,51 @@ The diagram rendering scripts were executed successfully and produced both SVG a
 | Updated class diagram with two to three design patterns | Satisfied | Figure 6 |
 | Sequence diagrams showing pattern interaction | Satisfied | Figures 7 and 8 |
 | Implement patterns in Java or C++ | Satisfied | Java skeleton under `src/main/java/edu/apu/kiosk` |
-| Brief evaluation of patterns | Satisfied | Section 3 and section 7 |
+| Brief evaluation of patterns | Satisfied | Sections 3 and 7 |
 | Critical appraisal report | Satisfied | Section 7 |
+| Cover page and organised report structure | Satisfied | Cover page, sommaire, tables, and final PDF |
 | References | Satisfied | Section 9 |
 
 ## 7. Critical Appraisal
 
-### 7.1 Strengths of the Solution
+### 7.1 Summary Evaluation
 
-The solution separates user interaction, payment, menu updates, authentication, and logging into different areas of responsibility. This makes the design easier to understand and maintain than a single kiosk class that performs every task.
-
-The design also fits the assignment scenario. Centralised menu updates support the requirement that price and availability changes should be made from the snack booth system and then applied across kiosks. The observer relationship between admin/menu logic and kiosks supports the planned expansion from five kiosks to ten.
+| Area | Strength | Limitation / Risk |
+| --- | --- | --- |
+| Maintainability | Responsibilities are split across domain, service, observer, strategy, and singleton packages. | Some classes are still simplified because the implementation is skeletal. |
+| Extensibility | Strategy makes payment methods replaceable, and Observer supports additional kiosks. | Future product categories would need more detailed product creation rules. |
+| Central updates | Admin updates can be broadcast to kiosks. | A real deployment would need database transactions and network reliability. |
+| Payment | AP card payment is isolated behind `PaymentStrategy`. | Real AP card integration is not implemented. |
+| Logging | A shared logger records transaction events. | Production logs should be persistent and secured. |
 
 ### 7.2 Suitability of the Design Patterns
 
-Observer is suitable because several kiosks need to react to a central menu update. Strategy is suitable because payment behaviour may evolve beyond AP card payment. Singleton is useful in this skeletal design for shared menu management and transaction logging, although it should be used carefully in production software.
+Observer is suitable because several kiosks need to react to one central menu update. Strategy is suitable because payment behaviour may evolve beyond AP card payment. Singleton is useful in this skeletal design for shared menu management and transaction logging, although production systems should avoid uncontrolled global state.
 
 ### 7.3 Limitations and Risks
 
-The Java implementation is intentionally skeletal. It does not include a real kiosk interface, persistent database, AP card API, network communication, or production deployment model. A real campus deployment would require stronger security, audited admin access, persistent transaction storage, and reliable order notification delivery.
+The Java implementation does not include a real kiosk interface, persistent database, AP card API, network communication, or deployment model. A live campus system would require staff authentication, secure payment integration, retry handling for failed notifications, and persistent audit logs.
 
-Concurrency is considered through the use of thread-aware collections in some classes, but a production system would still need database transactions or distributed consistency controls to handle simultaneous kiosk orders and admin updates.
+Concurrency is considered through thread-aware collections in some classes, but production use would require stronger consistency controls for simultaneous kiosk orders and admin updates.
 
 ### 7.4 Balanced Evaluation
 
-Overall, the design is appropriate for an UML mini project. It satisfies the functional requirements, demonstrates object-oriented modelling, and applies patterns where they address real design concerns. Its main weakness is prototype depth rather than conceptual structure.
+Overall, the design is appropriate for an UML mini project. It satisfies the required diagrams, demonstrates object-oriented modelling, and applies patterns where they address real design concerns. The main weakness is prototype depth rather than conceptual structure.
 
 ## 8. Conclusion and Future Enhancements
 
-The proposed kiosk system design addresses the main coursework requirements: identifying users, browsing and customising products, placing orders, processing AP card payment, logging transactions, notifying preparation staff, and updating product data centrally.
+The proposed design addresses the main coursework requirements: identifying users, browsing and customising products, placing orders, processing AP card payment, logging transactions, notifying preparation staff, and updating product data centrally.
 
 The refined design improves maintainability through Observer, Strategy, and Singleton. These patterns support multi-kiosk synchronisation, payment flexibility, and shared service management.
 
-Future improvements could include a graphical kiosk interface, persistent storage, full AP card integration, automated tests, reporting dashboards, staff authentication, and stronger concurrency controls for a real multi-kiosk deployment.
+| Future Enhancement | Expected Benefit |
+| --- | --- |
+| Graphical kiosk interface | Makes the prototype usable by real students and staff. |
+| Persistent database | Stores products, orders, users, and logs safely. |
+| Real AP card integration | Connects payment to the actual campus payment system. |
+| Automated tests | Verifies payment, notification, and update behaviour. |
+| Admin authentication | Protects price and availability updates. |
+| Distributed consistency controls | Makes the system safer for multiple physical kiosks. |
 
 ## 9. References
 
