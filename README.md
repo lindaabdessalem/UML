@@ -33,6 +33,20 @@ Regenerate all clean SVG and PNG files:
 .\scripts\render-diagrams.ps1
 ```
 
+## Report files
+
+The main submission report is available in three formats:
+
+- `report/report.md`: editable Markdown source
+- `report/final-report.html`: printable HTML version
+- `report/final-report.pdf`: PDF export generated from the HTML version
+
+To rebuild the printable HTML after editing `report/report.md`:
+
+```powershell
+.\scripts\build-report-html.ps1
+```
+
 ## Java implementation
 
 The Java code implements the patterns shown in `06_class_diagram_with_patterns.uxf` and the clean redraw `diagrams/06_class_diagram_with_patterns.mmd`:

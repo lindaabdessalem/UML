@@ -12,3 +12,11 @@
 | Brief evaluation of patterns | `report/report.md`, section 5 |
 | Critical appraisal report | `report/report.md`, section 8 |
 | References | `report/report.md`, section 9 |
+
+## Final Report Outputs
+
+| Format | File |
+| --- | --- |
+| Editable Markdown | `report/report.md` |
+| Printable HTML | `report/final-report.html` |
+| PDF export | `report/final-report.pdf` |
